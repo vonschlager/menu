@@ -72,7 +72,7 @@ handleMenu = do
     mid <- getParam "id"
     let _id = case mid of
             Just id -> read $ B.unpack id
-            Nothing -> 0
+            Nothing -> 1
     its <- with db $ flip genItems [] _id
     writeBS $ B.pack $ genMenu its
     writeBS "</html>"

@@ -3,5 +3,4 @@ log
 .ghci
 site_key.txt
 users.json
-*.db
 *.swp
