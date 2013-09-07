@@ -61,14 +61,19 @@ genItems id pits = do
             _  -> itss dits pits
     genItems pid its
   where
-    itss dits pits = map (\dit -> Item (dbtitle dit) (dbiid dit) (if id == dbiid dit then pits else [])) dits
+    itss dits pits = map (\dit -> Item (dbtitle dit)
+                                       (dbiid dit)
+                                       (if id == dbiid dit then pits else [])) dits
 
 handleMenu :: Handler App App ()
 handleMenu = do
     --items <- with db getItems
     writeBS "<html>"
-    (Just id) <- getParam "id"
-    its <- with db $ flip genItems [] $ read $ B.unpack id
+    mid <- getParam "id"
+    let _id = case mid of
+            Just id -> read $ B.unpack id
+            Nothing -> 0
+    its <- with db $ flip genItems [] _id
     writeBS $ B.pack $ genMenu its
     writeBS "</html>"
 
